@@ -142,7 +142,7 @@ int none_stream_all (buffer_t *plaintext, cipher_t *cipher, size_t capacity){
 	(void) plaintext;
 	(void) cipher;
 	(void) capacity;
-	return CRYPTO_OK:
+	return CRYPTO_OK;
 }
 
 void none_stream_ctx_init (cipher_t *cipher, cipher_ctx_t *cipher_ctx, int enc){
