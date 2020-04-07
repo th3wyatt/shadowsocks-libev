@@ -131,6 +131,31 @@ entropy_check(void)
 #endif
 }
 
+int none_stream (buffer_t *ciphertext, cipher_ctx_t *cipher_ctx, size_t capacity){
+		(void) ciphertext;
+		(void) cipher_ctx;
+		(void) capacity;
+		return CRYPTO_OK;
+}
+
+int none_stream_all (buffer_t *plaintext, cipher_t *cipher, size_t capacity){
+	(void) plaintext;
+	(void) cipher;
+	(void) capacity;
+	return CRYPTO_OK:
+}
+
+void none_stream_ctx_init (cipher_t *cipher, cipher_ctx_t *cipher_ctx, int enc){
+	(void) cipher;
+	(void) cipher_ctx;
+	(void) enc;
+}
+
+void none_stream_ctx_release (cipher_ctx_t *cipher_ctx){
+	(void) cipher_ctx;
+}
+
+
 crypto_t *
 crypto_init(const char *password, const char *key, const char *method)
 {
@@ -150,6 +175,20 @@ crypto_init(const char *password, const char *key, const char *method)
 #endif
 
     if (method != NULL) {
+        if (strncmp(method, "none", 4) == 0){
+            crypto_t *crypto = (crypto_t *) malloc(sizeof(crypto_t));
+            crypto_t temp    = {
+                .cipher      = NULL,
+                .encrypt_all = &none_stream_all,
+                .decrypt_all = &none_stream_all,
+                .encrypt     = &none_stream,
+                .decrypt     = &none_stream,
+                .ctx_init    = &none_stream_ctx_init,
+                .ctx_release = &none_stream_ctx_release,
+            };
+            memcpy(crypto, &temp, sizeof(crypto_t));
+            return crypto;
+        }
         for (i = 0; i < STREAM_CIPHER_NUM; i++)
             if (strcmp(method, supported_stream_ciphers[i]) == 0) {
                 m = i;

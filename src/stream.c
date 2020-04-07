@@ -94,6 +94,7 @@
 #define SALSA20             18
 #define CHACHA20            19
 #define CHACHA20IETF        20
+#define PLAINTEXT           21
 
 const char *supported_stream_ciphers[STREAM_CIPHER_NUM] = {
     "table",
@@ -116,7 +117,8 @@ const char *supported_stream_ciphers[STREAM_CIPHER_NUM] = {
     "seed-cfb",
     "salsa20",
     "chacha20",
-    "chacha20-ietf"
+    "chacha20-ietf",
+    "none"
 };
 
 static const char *supported_stream_ciphers_mbedtls[STREAM_CIPHER_NUM] = {
@@ -140,15 +142,16 @@ static const char *supported_stream_ciphers_mbedtls[STREAM_CIPHER_NUM] = {
     CIPHER_UNSUPPORTED,
     "salsa20",
     "chacha20",
-    "chacha20-ietf"
+    "chacha20-ietf",
+    CIPHER_UNSUPPORTED
 };
 
 static const int supported_stream_ciphers_nonce_size[STREAM_CIPHER_NUM] = {
-    0, 0, 16, 16, 16, 16, 16, 16, 16, 8, 16, 16, 16, 8, 8, 8, 8, 16, 8, 8, 12
+    0, 0, 16, 16, 16, 16, 16, 16, 16, 8, 16, 16, 16, 8, 8, 8, 8, 16, 8, 8, 12, 0
 };
 
 static const int supported_stream_ciphers_key_size[STREAM_CIPHER_NUM] = {
-    0, 16, 16, 16, 24, 32, 16, 24, 32, 16, 16, 24, 32, 16, 8, 16, 16, 16, 32, 32, 32
+    0, 16, 16, 16, 24, 32, 16, 24, 32, 16, 16, 24, 32, 16, 8, 16, 16, 16, 32, 32, 32, 0
 };
 
 static int
@@ -691,6 +694,10 @@ stream_init(const char *pass, const char *key, const char *method)
     }
     if (m == TABLE) {
         LOGE("Table is deprecated");
+        return NULL;
+    }
+    if (m == PLAINTEXT) {
+        LOGE("Not using encryption");
         return NULL;
     }
     return stream_key_init(m, pass, key);
