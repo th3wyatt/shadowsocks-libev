@@ -259,7 +259,7 @@ fi
 build_install_sslibev() {
 if [ $BUILD_BIN -eq 1 ]; then
 	BRANCH=$1
-	gbp_build https://salsa.debian.org/bridges-team/shadowsocks-libev.git $BRANCH
+	gbp_build https://git.viasat.com/VSDR/vsdr-shadowsocks-libev-build.git $BRANCH
 	sudo dpkg -i shadowsocks-libev_*.deb
 	sudo apt-get install -fy
 fi
