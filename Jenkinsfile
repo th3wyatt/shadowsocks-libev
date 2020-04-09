@@ -107,7 +107,7 @@ pipeline {
             script {
                 // archive *.deb artifact on custom builds, deploy to repo otherwise
                 if ( isCustomBuild()) {
-                    archiveArtifacts artifacts: 'shadowsocks-libev_*.deb', fingerprint: true
+                    archiveArtifacts artifacts: 'build/build-area/shadowsocks-libev_*.deb', fingerprint: true
                 } else {
                     // publish build result, using SSH-dev.packages.vyos.net Jenkins Credentials
                     sshagent(['SSH-dev.packages.vyos.net']) {
