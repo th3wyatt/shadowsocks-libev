@@ -87,7 +87,10 @@ pipeline {
             steps {
                 script {
                     dir('build') {
-                        sh "dpkg-buildpackage -b -us -uc -tc"
+                        sh "mkdir build-area"
+                        sh "./scripts/build_deb.sh ./build-area/
+                        sh "cd build-area"
+                        sh "./build_deb.sh"
                     }
                 }
             }
@@ -101,7 +104,7 @@ pipeline {
             script {
                 // archive *.deb artifact on custom builds, deploy to repo otherwise
                 if ( isCustomBuild()) {
-                    archiveArtifacts artifacts: '*.deb', fingerprint: true
+                    archiveArtifacts artifacts: 'shadowsocks-libev_*.deb', fingerprint: true
                 } else {
                     // publish build result, using SSH-dev.packages.vyos.net Jenkins Credentials
                     sshagent(['SSH-dev.packages.vyos.net']) {
