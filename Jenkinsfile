@@ -89,7 +89,10 @@ pipeline {
                     dir('build') {
                         sh "mkdir build-area"
                         sh "cp ./scripts/build_deb.sh ./build-area/"
-                        sh "cd build-area"
+                    }
+                }
+                script {
+                    dir('build/build-area') {
                         sh "./build_deb.sh"
                     }
                 }
