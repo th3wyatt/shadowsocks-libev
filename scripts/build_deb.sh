@@ -113,7 +113,7 @@ gbp_build() {
 	[ -n "$DEPS_BPO" ] && BPO_REPO="-t ${OSVER}-backports"
 	mk-build-deps --root-cmd sudo --install --tool "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y $BPO_REPO"
 	rm -f ${PROJECT_NAME}-build-deps_*.deb
-	gbp buildpackage -us -uc --git-ignore-branch --git-pristine-tar
+	gbp buildpackage --git-ignore-new -us -uc --git-ignore-branch --git-pristine-tar
 	git clean -fdx
 	git reset --hard HEAD
 	cd -
@@ -259,7 +259,7 @@ fi
 build_install_sslibev() {
 if [ $BUILD_BIN -eq 1 ]; then
 	BRANCH=$1
-	gbp_build https://git.viasat.com/VSDR/vsdr-shadowsocks-libev-build.git $BRANCH
+	gbp_build git@git.viasat.com:VSDR/vsdr-shadowsocks-libev-build.git $BRANCH
 	sudo dpkg -i shadowsocks-libev_*.deb
 	sudo apt-get install -fy
 fi
