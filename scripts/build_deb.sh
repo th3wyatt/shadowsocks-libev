@@ -242,7 +242,7 @@ fi
 patch_sslibev_dh9() {
 if [ $BUILD_BIN -eq 1 ]; then
 	BRANCH=$1
-	gbp clone --pristine-tar https://salsa.debian.org/bridges-team/shadowsocks-libev.git
+	gbp clone --pristine-tar git@git.viasat.com:VSDR/vsdr-shadowsocks-libev-build.git
 	cd shadowsocks-libev
 	[ -n "$BRANCH" ] && git checkout $BRANCH
 	sed -i 's/dh $@/dh $@ --with systemd,autoreconf/' debian/rules
